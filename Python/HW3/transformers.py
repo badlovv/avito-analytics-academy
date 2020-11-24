@@ -1,5 +1,6 @@
 from typing import List
 from collections import Counter
+from math import log
 
 
 class CountVectorizer:
@@ -65,6 +66,55 @@ class CountVectorizer:
         return item in self._feature_names
 
 
+def tf_transform(c_mat):
+    return [[round(f / sum(text), 3) for f in text] for text in c_mat]
+
+
+def idf_transform(c_mat):
+    def idf(all_docs, docs_with_word):
+        return round(log((all_docs + 1) / (docs_with_word + 1)) + 1, 1)
+
+    docs_cnt = len(c_mat)
+    docs_with_words = [0] * len(c_mat[0])
+    idf_index = []
+    for i, word_cnts in enumerate(c_mat):
+        docs_with_words = [docs_with_words[i] + 1 * (word_cnts[i] > 0) for i in range(len(c_mat[0]))]
+    idf_index = [idf(docs_cnt, docs_with_word) for docs_with_word in docs_with_words ]
+    return idf_index
+
+
+class TfidfTransformer:
+
+    @staticmethod
+    def tf_transform(c_mat):
+        return [[round(f / sum(text), 3) for f in text] for text in c_mat]
+
+    @staticmethod
+    def idf_transform(c_mat):
+        def idf(all_docs, docs_with_word):
+            return round(log((all_docs + 1) / (docs_with_word + 1)) + 1, 1)
+
+        docs_cnt = len(c_mat)
+        docs_with_words = [0] * len(c_mat[0])
+        idf_index = []
+        for i, word_cnts in enumerate(c_mat):
+            docs_with_words = [docs_with_words[i] + 1 * (word_cnts[i] > 0) for i in range(len(c_mat[0]))]
+        idf_index = [idf(docs_cnt, docs_with_word) for docs_with_word in docs_with_words]
+        return idf_index
+
+    def fit_transform(self, c_mat):
+        tf = self.tf_transform(c_mat)
+        idf = self.idf_transform(c_mat)
+        return [[round(tf_[i] * idf[i], 3) for i in range(len(tf_))] for tf_ in tf]
+
+
+class TfidfVectorizer(CountVectorizer):
+
+    def fit_transform(self, corpus):
+        c_mat = CountVectorizer().fit_transform(corpus)
+        return TfidfTransformer().fit_transform(c_mat)
+
+
 if __name__ == '__main__':
     corpus = [
         'Crock Pot Pasta Never boil pasta again',
@@ -74,18 +124,17 @@ if __name__ == '__main__':
     vectorizer = CountVectorizer()
 
     count_matrix = vectorizer.fit_transform(corpus)
-    print(count_matrix)
 
-    vectorizer.fit(corpus)
-    print(vectorizer.transform(['This is pasta Pomodoro with fresh ingredients', 'Pasta Carbonara with Parmesan']))
+    tf = tf_transform(count_matrix)
+    print(tf)
 
-    print(vectorizer.get_feature_names())
+    idf = idf_transform(count_matrix)
+    print(idf)
 
-    print(len(vectorizer))
+    transformer = TfidfTransformer()
+    tfidf_matrix = transformer.fit_transform(count_matrix)
+    print(tfidf_matrix)
 
-    for el in vectorizer:
-        print(f'{el}: {vectorizer[el]}')
-
-    print(vectorizer.get_feature_index('pasta'))
-
-    print('pasta' in vectorizer)
+    transformer = TfidfVectorizer()
+    tfidf_matrix = transformer.fit_transform(corpus)
+    print(tfidf_matrix)
