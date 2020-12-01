@@ -1,9 +1,14 @@
->>> pytest
+(AAA) vvbadlo@MSK-C02D544XMD6R issue_2 % pytest -v
 ========================================================================== test session starts ===========================================================================
-platform darwin -- Python 3.8.5, pytest-6.1.1, py-1.9.0, pluggy-0.13.1
+platform darwin -- Python 3.8.5, pytest-6.1.1, py-1.9.0, pluggy-0.13.1 -- /Users/vvbadlo/.conda/envs/AAA/bin/python
+cachedir: .pytest_cache
 rootdir: /Users/vvbadlo/PycharmProjects/AAA/HW_tests/issue_2
-collected 3 items
+plugins: cov-2.10.1
+collected 3 items                                                                                                                                                        
 
-test_morse.py ...                                                                                                                                                  [100%]
+test_morse.py::test_decode_correct_string[STRING-... - .-. .. -. --.] PASSED                                                                                       [ 33%]
+test_morse.py::test_decode_correct_string[123-.---- ..--- ...--] PASSED                                                                                            [ 66%]
+test_morse.py::test_decode_correct_string[WITH./-()-.-- .. - .... .-.-.- -..-. -....- -.--. -.--.- ] PASSED                                                        [100%]
 
-=========================================================================== 3 passed in 0.01s ============================================================================
+=========================================================================== 3 passed in 0.02s ============================================================================
+(AAA) vvbadlo@MSK-C02D544XMD6R issue_2 % 

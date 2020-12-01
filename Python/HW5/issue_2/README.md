@@ -1,5 +1,11 @@
 **HOW TO RUN**
- 
+
+Install:
+> pip install -U pytest    
+
+
+Change working directory:
 >cd issue_2
 
->pytest
+Run tests:
+>pytest -v
