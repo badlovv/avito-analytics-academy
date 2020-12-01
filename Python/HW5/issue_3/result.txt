@@ -1,0 +1,6 @@
+(AAA) vvbadlo@MSK-C02D544XMD6R issue_3 % python3 test_one_hot_encoder.py
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK

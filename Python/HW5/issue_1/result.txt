@@ -1,0 +1,22 @@
+>>> python3 -m doctest morse.py -v -o NORMALIZE_WHITESPACE
+Trying:
+    encode('SOS')
+Expecting:
+    '... --- ...'
+ok
+Trying:
+    encode(123)
+Expecting:
+    Traceback (most recent call last):
+    ...
+    TypeError: 'int' object is not iterable
+ok
+2 items had no tests:
+    morse
+    morse.decode
+1 items passed all tests:
+   2 tests in morse.encode
+2 tests in 3 items.
+2 passed and 0 failed.
+Test passed.
+
